@@ -245,18 +245,17 @@
     padding-bottom: 100%;
     border-radius: 16px;
     overflow: hidden;
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-    border: 2px dashed rgba(255,255,255,0.5);
+    background: #f0f2f5;
+    border: 2px solid #e2e8f0;
     display: flex;
     align-items: center;
     justify-content: center;
-    cursor: pointer;
     transition: all 0.3s ease;
   }
 
   .study-image-box:hover {
-    border-color: #fff;
-    transform: scale(1.05);
+    transform: scale(1.02);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.05);
   }
 
   .study-image-box img {
@@ -266,24 +265,6 @@
     object-fit: cover;
     top: 0;
     left: 0;
-  }
-
-  .study-image-box.empty {
-    color: rgba(255,255,255,0.7);
-    font-size: 32px;
-    font-weight: 800;
-  }
-
-  .upload-hint {
-    font-size: 12px;
-    color: #999;
-    text-align: center;
-    margin-top: 12px;
-    font-style: italic;
-  }
-
-  .hidden-upload {
-    display: none;
   }
 
   /* Tips Section */
@@ -527,7 +508,6 @@
 </head>
 <body>
 
-<!-- PAGE 0: GAME PAGE -->
 <div id="page0">
   <div class="game-float">📚</div>
   <div class="game-float">💪</div>
@@ -545,10 +525,8 @@
   <button class="click-btn grow" id="gameBtn">Begin 🚀</button>
 </div>
 
-<!-- PAGE 1: MAIN CONTENT -->
 <div id="page1">
   <div class="content-wrapper">
-    <!-- Hero Section -->
     <div class="hero-section">
       <div class="hero-emoji">🌟</div>
       <h1 class="hero-title">You're Going to Crush It!</h1>
@@ -558,7 +536,6 @@
       </p>
     </div>
 
-    <!-- Stats Section -->
     <div class="stats-section">
       <h2 class="stats-title">I See Your Dedication</h2>
       
@@ -595,26 +572,25 @@
       </div>
     </div>
 
-    <!-- Gallery Section -->
     <div class="gallery-section">
       <h2 class="gallery-title">📸 Your Study Journey</h2>
-      <p style="text-align: center; font-size: 14px; color: #999; margin-bottom: 20px;">
-        Add photos of your study sessions to celebrate your dedication
-      </p>
+      
       <div class="image-grid">
-        <div class="study-image-box empty" onclick="openUpload(0)">➕</div>
-        <div class="study-image-box empty" onclick="openUpload(1)">➕</div>
-        <div class="study-image-box empty" onclick="openUpload(2)">➕</div>
-        <div class="study-image-box empty" onclick="openUpload(3)">➕</div>
+        <div class="study-image-box">
+          <img src="https://images.unsplash.com/photo-1506784983877-45594efa4cbe?w=500&auto=format&fit=crop" alt="Study moment 1">
+        </div>
+        <div class="study-image-box">
+          <img src="https://images.unsplash.com/photo-1434030216411-0b793f4b4173?w=500&auto=format&fit=crop" alt="Study moment 2">
+        </div>
+        <div class="study-image-box">
+          <img src="https://images.unsplash.com/photo-1516321318423-f06f85e504b3?w=500&auto=format&fit=crop" alt="Study moment 3">
+        </div>
+        <div class="study-image-box">
+          <img src="https://images.unsplash.com/photo-1456513080510-7bf3a84b82f8?w=500&auto=format&fit=crop" alt="Study moment 4">
+        </div>
       </div>
-      <div class="upload-hint">Click any box to add photos of your study sessions</div>
-      <input type="file" class="hidden-upload" id="upload-0" accept="image/*">
-      <input type="file" class="hidden-upload" id="upload-1" accept="image/*">
-      <input type="file" class="hidden-upload" id="upload-2" accept="image/*">
-      <input type="file" class="hidden-upload" id="upload-3" accept="image/*">
     </div>
 
-    <!-- Tips Section -->
     <div class="tips-section">
       <h2 class="tips-title">⚡ Final Exam Tips</h2>
       
@@ -650,13 +626,11 @@
   </button>
 </div>
 
-<!-- LOADING OVERLAY -->
 <div id="loading-overlay">
   <div class="loading-heart"></div>
   <p class="loading-text">Preparing Your Motivation... 🎯</p>
 </div>
 
-<!-- PAGE 2: ENDING -->
 <div id="page2">
   <div class="floating-hearts">
     <span style="left: 10%; animation-delay: 0s;">💖</span>
@@ -694,7 +668,6 @@
   const page2 = document.getElementById('page2');
   const overlay = document.getElementById('loading-overlay');
   const gameBtn = document.getElementById('gameBtn');
-  const imageBoxes = document.querySelectorAll('.study-image-box');
 
   let clickCount = 0;
   let canClick = true;
@@ -772,26 +745,6 @@
       beginMotivation();
     }
   });
-
-  // Image upload
-  function openUpload(index) {
-    document.getElementById(`upload-${index}`).click();
-  }
-
-  for (let i = 0; i < 4; i++) {
-    document.getElementById(`upload-${i}`).addEventListener('change', function(e) {
-      const file = e.target.files[0];
-      if (file) {
-        const reader = new FileReader();
-        reader.onload = function(event) {
-          const box = imageBoxes[i];
-          box.classList.remove('empty');
-          box.innerHTML = `<img src="${event.target.result}" alt="Study moment ${i+1}">`;
-        };
-        reader.readAsDataURL(file);
-      }
-    });
-  }
 
   // Proceed to ending
   function proceedToEnding() {
