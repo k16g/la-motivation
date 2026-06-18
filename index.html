@@ -678,6 +678,10 @@
   function runAwayButton(e) {
     if (!canClick) return;
     
+    // CRITICAL FIX: If the button has already stopped running away, 
+    // do absolutely nothing and let the 'click' event handle it!
+    if (clickCount >= 4) return;
+
     // Prevent accidental zooming/scrolling gestures on mobile touch
     if (e.type === 'touchstart') {
       e.preventDefault();
@@ -695,9 +699,6 @@
 
     clickCount++;
     const scale = 1 + (clickCount * 0.15);
-    
-    // Remove center transform offset on change to manual positions
-    gameBtn.style.transform = `scale(${Math.min(scale, 2.2)})`;
 
     // After 4 misses, freeze button position and allow clean press
     if (clickCount >= 4) {
@@ -757,6 +758,8 @@
   // Mobile friendly listener structures
   gameBtn.addEventListener('mouseover', runAwayButton);
   gameBtn.addEventListener('touchstart', runAwayButton, { passive: false });
+  
+  // This will now successfully trigger on mobile taps once clickCount >= 4
   gameBtn.addEventListener('click', (e) => {
     if (clickCount >= 4) {
       beginMotivation();
